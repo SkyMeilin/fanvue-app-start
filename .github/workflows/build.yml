@@ -1,0 +1,30 @@
+name: Fanvue App CI & Build (Windows)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Fanvue Starter Script
+        env:
+          FANVUE_TOKEN: ${{ secrets.FANVUE_TOKEN }}
+        run: node index.js
